@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+  <meta charset="UTF-8">
+  <title>Καταχώρηση Συγκατάθεσης GDPR</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+    rel="stylesheet"
+  >
+  <style>
+    body {
+      background: #f5f7fa;
+    }
+    .card {
+      max-width: 800px;
+      margin: auto;
+      margin-top: 1.5rem;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    }
+    .card-header {
+      background: #0056b3;
+      color: #fff;
+      font-size: 1.25rem;
+      text-align: center;
+      padding: 1rem;
+    }
+    #patient-list {
+      position: absolute;
+      top: calc(100% + .25rem);
+      left: 0; right: 0;
+      z-index: 2000;
+      max-height: 180px;
+      overflow-y: auto;
+      border: 1px solid #ced4da;
+      border-radius: .25rem;
+      background: #fff;
+    }
+    #patient-list li {
+      cursor: pointer;
+    }
+    #terms {
+      height: 180px;
+      overflow-y: auto;
+      padding: .75rem;
+      background: #fff;
+      border: 1px solid #ced4da;
+      border-radius: .25rem;
+      font-size: .95rem;
+      line-height: 1.4;
+    }
+    #signature-pad {
+      border: 1px solid #ced4da;
+      border-radius: .25rem;
+      background: #fff;
+    }
+    #signature-pad canvas {
+      width: 100% !important;
+      height: auto !important;
+    }
+    .form-control, .form-check-input {
+      font-size: .95rem;
+    }
+    .form-label {
+      font-weight: 500;
+    }
+    .btn-primary {
+      background: #0056b3;
+      border: 0;
+    }
+    .btn-primary:hover {
+      background: #004494;
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div class="card-header">
+      Καταχώρηση Συγκατάθεσης GDPR
+    </div>
+    <div class="card-body">
+      <form id="consent-form" class="row g-3 position-relative">
+        <!-- live search -->
+        <div class="col-12 position-relative">
+          <label for="patient-search" class="form-label">Αναζήτηση Ασθενή (ον./τηλ.)</label>
+          <input
+            type="text"
+            id="patient-search"
+            class="form-control"
+            placeholder="Πληκτρολόγησε όνομα ή τηλέφωνο..."
+            autocomplete="off"
+          >
+          <ul id="patient-list" class="list-group list-group-flush"></ul>
+          <input type="hidden" id="patient_id" name="patient_id">
+        </div>
+
+        <!-- read-only fields -->
+        <div class="col-md-4">
+          <label for="display-name" class="form-label">Ονοματεπώνυμο</label>
+          <input type="text" id="display-name" class="form-control" readonly>
+        </div>
+        <div class="col-md-4">
+          <label for="display-phone" class="form-label">Τηλέφωνο</label>
+          <input type="text" id="display-phone" class="form-control" readonly>
+        </div>
+        <div class="col-md-4">
+          <label for="display-email" class="form-label">Email</label>
+          <input type="email" id="display-email" class="form-control" readonly>
+        </div>
+
+        <!-- editable -->
+        <div class="col-md-6">
+          <label for="customer_address" class="form-label">Διεύθυνση</label>
+          <input
+            type="text"
+            id="customer_address"
+            name="customer_address"
+            class="form-control"
+            placeholder="Εισάγετε τη διεύθυνση"
+            required
+          >
+        </div>
+        <div class="col-md-6">
+          <label for="city" class="form-label">Πόλη</label>
+          <input
+            type="text"
+            id="city"
+            name="city"
+            class="form-control"
+            placeholder="Εισάγετε την πόλη"
+            required
+          >
+        </div>
+
+        <!-- terms -->
+        <div class="col-12">
+          <label for="terms" class="form-label">Όροι &amp; Προϋποθέσεις</label>
+          <div id="terms">
+Παρακαλούμε διαβάστε προσεκτικά πριν προχωρήσετε. Περαιτέρω, δηλώνω ότι: Ενημερώθηκα από την Εταιρεία για τα δικαιώματα που έχω επί των προσωπικών μου δεδομένων, σύμφωνα με τον Γενικό Κανονισμό Προστασίας Δεδομένων του Ευρωπαϊκού Κοινοβουλίου και του Συμβουλίου (ΕΕ 679/2016) και την ισχύουσα εθνική νομοθεσία περί προστασίας δεδομένων προσωπικού χαρακτήρα. Ειδικότερα, ότι έχω δικαίωμα: (α) να αιτηθώ τη διόρθωση ανακριβών προσωπικών μου δεδομένων, (β) να αιτηθώ τη διαγραφή των προσωπικών μου δεδομένων («δικαίωμα στη λήθη»), (γ) να αιτηθώ τον περιορισμό της επεξεργασίας των προσωπικών μου δεδομένων, (δ) να εναντιωθώ ανά πάσα στιγμή στην επεξεργασία των προσωπικών μου δεδομένων από την Εταιρεία ή/και από οποιοδήποτε πρόσωπο με το οποίο συνεργάζεται, (ε) να αιτηθώ την πρόσβαση στα προσωπικά μου δεδομένα που διαθέτει η Εταιρεία, και (στ) να λαμβάνω τα προσωπικά μου δεδομένα σε δομημένο, κοινώς χρησιμοποιούμενο και αναγνωρίσιμο από μηχανήματα μορφότυπο καθώς και το δικαίωμα να διαβιβάζω τα εν λόγω δεδομένα μου σε άλλον υπεύθυνο επεξεργασίας («φορητότητα των δεδομένων»). Πέραν των ανωτέρω, έχω ενημερωθεί από την Εταιρεία για την εκ μέρους της επεξεργασία των προσωπικών μου δεδομένων, το είδους αυτών, το σκοπό επεξεργασίας τους, τους αποδέκτες αυτών στο πλαίσιο της εν λόγω επεξεργασίας, το χρόνο τήρησής τους καθώς και τα μέτρα που η ίδια έχει λάβει για την ασφάλεια της επεξεργασίας αυτής. Ενόψει των ανωτέρω:
+          </div>
+        </div>
+
+        <!-- consent checkbox -->
+        <div class="col-12">
+          <div class="form-check">
+            <input
+              class="form-check-input"
+              type="checkbox"
+              id="consent"
+              name="consent"
+              value="1"
+              required
+            >
+            <label class="form-check-label" for="consent">
+              Δηλώνω ρητά ότι συναινώ και αποδέχομαι την επεξεργασία των προσωπικών μου δεδομένων από την Εταιρεία για τον άνω σκοπό
+            </label>
+          </div>
+        </div>
+
+        <!-- signature -->
+        <div class="col-12">
+          <label class="form-label">Ψηφιακή Υπογραφή (προαιρετικά)</label>
+          <div id="signature-pad" class="mb-2">
+            <canvas width="800" height="200"></canvas>
+          </div>
+          <button type="button" id="clear-sign" class="btn btn-outline-secondary btn-sm">
+            Καθαρισμός Υπογραφής
+          </button>
+        </div>
+
+        <!-- submit -->
+        <div class="col-12 text-end">
+          <button type="submit" class="btn btn-primary px-4">Υποβολή</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/signature_pad@4.0.0/dist/signature_pad.umd.min.js"></script>
+ <script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const searchInput = document.getElementById('patient-search');
+    const listEl      = document.getElementById('patient-list');
+    const hiddenId    = document.getElementById('patient_id');
+    const nameFld     = document.getElementById('display-name');
+    const phoneFld    = document.getElementById('display-phone');
+    const emailFld    = document.getElementById('display-email');
+    const consentCb   = document.getElementById('consent');
+    const addrFld     = document.getElementById('customer_address');
+    const cityFld     = document.getElementById('city');
+
+    let debounceTimer;
+
+    function clearList() {
+      listEl.innerHTML = '';
+      listEl.style.display = 'none';
+    }
+
+    // ----------- Prefill από ?patient_id= ----------- //
+    function prefillPatientById(pid) {
+      if (!pid) return;
+      fetch(`patients.php?id=${encodeURIComponent(pid)}`)
+        .then(res => res.json())
+        .then(p => {
+          if (!p || !p.id) return;
+          hiddenId.value    = p.id;
+          nameFld.value     = p.name || '';
+          phoneFld.value    = p.phone || '';
+          emailFld.value    = p.email || '';
+          searchInput.value = p.name || '';
+        })
+        .catch(() => {});
+    }
+
+    const params     = new URLSearchParams(window.location.search);
+    const initialPid = params.get('patient_id');
+    if (initialPid) {
+      prefillPatientById(initialPid);
+    }
+
+    // ----------- Live search ονόματος / τηλεφώνου ----------- //
+    searchInput.addEventListener('input', () => {
+      const q = searchInput.value.trim();
+      hiddenId.value = '';
+      nameFld.value = phoneFld.value = emailFld.value = '';
+
+      if (debounceTimer) clearTimeout(debounceTimer);
+      if (q.length < 2) { clearList(); return; }
+
+      debounceTimer = setTimeout(() => {
+        fetch(`patients.php?q=${encodeURIComponent(q)}`)
+          .then(res => res.json())
+          .then(data => {
+            listEl.innerHTML = '';
+            if (!data.length) { clearList(); return; }
+            data.forEach(p => {
+              const li = document.createElement('li');
+              li.className = 'list-group-item list-group-item-action';
+              li.textContent = `${p.name} — ${p.phone}`;
+              li.dataset.id    = p.id;
+              li.dataset.name  = p.name;
+              li.dataset.phone = p.phone;
+              li.dataset.email = p.email || '';
+              listEl.append(li);
+            });
+            listEl.style.display = 'block';
+          })
+          .catch(() => clearList());
+      }, 300);
+    });
+
+    // Επιλογή από τη λίστα
+    listEl.addEventListener('click', e => {
+      if (e.target.tagName !== 'LI') return;
+      hiddenId.value    = e.target.dataset.id;
+      nameFld.value     = e.target.dataset.name;
+      phoneFld.value    = e.target.dataset.phone;
+      emailFld.value    = e.target.dataset.email;
+      searchInput.value = e.target.dataset.name;
+      clearList();
+    });
+
+    document.addEventListener('click', e => {
+      if (!searchInput.contains(e.target) && !listEl.contains(e.target)) {
+        clearList();
+      }
+    });
+
+    // SignaturePad
+    const canvas = document.querySelector('#signature-pad canvas');
+    const sigPad = new SignaturePad(canvas);
+    document.getElementById('clear-sign').addEventListener('click', () => sigPad.clear());
+
+    // ----------- Submit φόρμας ----------- //
+    document.getElementById('consent-form').addEventListener('submit', e => {
+      e.preventDefault();
+      if (!hiddenId.value) {
+        return alert('Παρακαλώ επιλέξτε ασθενή από τη λίστα.');
+      }
+      if (!consentCb.checked) {
+        return alert('Πρέπει να αποδεχθείτε τους όρους.');
+      }
+      if (sigPad.isEmpty()) {
+        return alert('Παρακαλώ υπογράψτε στο πλαίσιο υπογραφής.');
+      }
+
+      const payload = {
+        patient_id:       hiddenId.value,
+        customer_address: addrFld.value.trim(),
+        city:             cityFld.value.trim(),
+        consent:          consentCb.checked ? 1 : 0,
+        signature:        sigPad.toDataURL()
+      };
+
+      fetch('submit.php', {
+        method:  'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body:    JSON.stringify(payload)
+      })
+      .then(res => res.json())
+      .then(resp => {
+        if (resp.status === 'success') {
+          alert('Η συναινεση καταχωρήθηκε επιτυχώς.');
+          window.location.reload();
+        } else {
+          alert('Σφάλμα: ' + resp.message);
+        }
+      })
+      .catch(() => alert('Πρόβλημα σύνδεσης με τον server.'));
+    });
+  });
+</script>
+
+
+
+</body>
+</html>
